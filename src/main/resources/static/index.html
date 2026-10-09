@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Elumalai Constructions Employee and Workforce Management System">
+
+    <title>Elumalai Constructions | Employee Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+
+    <!-- Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="main-header">
+
+    <div class="header-content">
+
+        <div class="company-info">
+
+            <h1>ELUMALAI CONSTRUCTIONS</h1>
+
+            <p>
+                Employee &amp; Workforce Management System
+            </p>
+
+        </div>
+
+        <div class="header-date-box">
+
+            <span class="date-label">
+                Today
+            </span>
+
+            <span id="currentDate"
+                  class="header-date">
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="main-nav"
+     aria-label="Main Navigation">
+
+    <button type="button"
+            class="nav-btn active"
+            onclick="showSection('dashboardSection')">
+
+        📊 Dashboard
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('employeeSection')">
+
+        👷 Employees
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('attendanceSection')">
+
+        📅 Attendance
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('leaveSection')">
+
+        🏖 Leave
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('advanceSection')">
+
+        💵 Advances
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('paymentSection')">
+
+        💰 Payroll
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('analyticsSection')">
+
+        📈 Financial Analytics
+
+    </button>
+
+    <button type="button"
+            class="nav-btn"
+            onclick="showSection('reportSection')">
+
+        📄 Reports
+
+    </button>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<section id="dashboardSection"
+         class="page-section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>📊 Dashboard</h2>
+
+            <p>
+                Today's employee, attendance and payroll overview
+            </p>
+        </div>
+
+        <div class="date-filter">
+
+            <label for="dashboardDate">
+                Dashboard Date
+            </label>
+
+            <input type="date"
+                   id="dashboardDate"
+                   onchange="loadDashboard()">
+
+        </div>
+
+    </div>
+
+
+    <!-- Employee Statistics -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">👷</div>
+
+            <h3>Total Workers</h3>
+
+            <p id="dashboardTotalWorkers">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card success-card">
+
+            <div class="card-icon">✅</div>
+
+            <h3>Present</h3>
+
+            <p id="dashboardPresent">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card warning-card">
+
+            <div class="card-icon">🌓</div>
+
+            <h3>Half Day</h3>
+
+            <p id="dashboardHalfDay">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card danger-card">
+
+            <div class="card-icon">❌</div>
+
+            <h3>Absent</h3>
+
+            <p id="dashboardAbsent">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card info-card">
+
+            <div class="card-icon">📊</div>
+
+            <h3>Attendance %</h3>
+
+            <p id="dashboardAttendancePercentage">
+                0%
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Salary Statistics -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">💰</div>
+
+            <h3>Paid Salary</h3>
+
+            <p id="dashboardPaidSalary">
+                ₹0.00
+            </p>
+
+        </div>
+
+
+        <div class="card warning-card">
+
+            <div class="card-icon">⏳</div>
+
+            <h3>Pending Salary</h3>
+
+            <p id="dashboardPendingSalary">
+                ₹0.00
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Payroll Status -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h3>Payroll Status</h3>
+
+                <p>
+                    Current payroll processing status
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card small-card">
+
+                <h4>Total Payroll</h4>
+
+                <p id="dashboardPayrollTotal">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card small-card warning-card">
+
+                <h4>Pending Approval</h4>
+
+                <p id="dashboardPayrollPending">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card small-card info-card">
+
+                <h4>Approved</h4>
+
+                <p id="dashboardPayrollApproved">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card small-card success-card">
+
+                <h4>Paid / Locked</h4>
+
+                <p id="dashboardPayrollPaid">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card small-card danger-card">
+
+                <h4>Cancelled</h4>
+
+                <p id="dashboardPayrollCancelled">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EMPLOYEE MANAGEMENT
+========================================================= -->
+
+<section id="employeeSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>👷 Employee Management</h2>
+
+            <p>
+                Add, search and manage construction workers
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Employee Form -->
+
+    <div class="panel">
+
+        <h3>Add / Update Employee</h3>
+
+        <form id="employeeForm"
+              onsubmit="saveEmployee(event)">
+              <input
+               type="hidden"
+               id="editingEmployeeId"
+               value="">
+
+            <div class="form-grid">
+
+
+                <!-- Name -->
+
+                <div class="form-group">
+
+                    <label for="employeeName">
+                        Employee Name *
+                    </label>
+
+                    <input type="text"
+                           id="employeeName"
+                           placeholder="Enter employee name"
+                           autocomplete="name"
+                           required>
+
+                </div>
+
+
+                <!-- Aadhaar -->
+
+                <div class="form-group">
+
+                    <label for="employeeAadhaar">
+                        Aadhaar Number *
+                    </label>
+
+                    <input type="text"
+                           id="employeeAadhaar"
+                           maxlength="12"
+                           inputmode="numeric"
+                           placeholder="12 digit Aadhaar"
+                           required>
+
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="form-group">
+
+                    <label for="employeePhone">
+                        Phone Number *
+                    </label>
+
+                    <input type="tel"
+                           id="employeePhone"
+                           maxlength="10"
+                           inputmode="numeric"
+                           placeholder="10 digit mobile number"
+                           required>
+
+                </div>
+
+
+                <!-- Job Role -->
+
+                <div class="form-group">
+
+                    <label for="employeeJobRole">
+                        Job Role *
+                    </label>
+
+                    <input type="text"
+                           id="employeeJobRole"
+                           placeholder="Example: Mason / Helper / Painter"
+                           required>
+
+                </div>
+
+
+                <!-- Daily Wage -->
+
+                <div class="form-group">
+
+                    <label for="employeeDailyWage">
+                        Daily Wage *
+                    </label>
+
+                    <input type="number"
+                           id="employeeDailyWage"
+                           min="0"
+                           step="0.01"
+                           placeholder="₹ Daily wage"
+                           required>
+
+                </div>
+
+
+                <!-- Joining Date - IMPORTANT -->
+
+                <div class="form-group">
+
+                    <label for="employeeJoiningDate">
+                        Joining Date *
+                    </label>
+
+                    <input type="date"
+                           id="employeeJoiningDate"
+                           required>
+
+                </div>
+
+
+                <!-- Status - IMPORTANT -->
+
+                <div class="form-group">
+
+                    <label for="employeeStatus">
+                        Status *
+                    </label>
+
+                    <select id="employeeStatus"
+                            required>
+
+                        <option value="ACTIVE">
+                            Active
+                        </option>
+
+                        <option value="INACTIVE">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Address -->
+
+                <div class="form-group full-width">
+
+                    <label for="employeeAddress">
+                        Address
+                    </label>
+
+                    <textarea id="employeeAddress"
+                              rows="3"
+                              placeholder="Enter employee address"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    💾 Save Employee
+
+                </button>
+
+
+                <button type="button"
+                        onclick="resetEmployeeForm()">
+
+                    ↩ Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h3>Employee List</h3>
+
+                <p>
+                    Search and manage registered workers
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <label for="employeeSearch">
+                Search Employee
+            </label>
+
+            <input type="search"
+                   id="employeeSearch"
+                   placeholder="Search by name, phone, role..."
+                   oninput="filterEmployees()">
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Job Role</th>
+                    <th>Daily Wage</th>
+                    <th>Joining Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="employeeTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Employee Details -->
+
+    <div id="employeeDetailsSection"
+         class="panel"
+         style="display:none;">
+
+        <div class="panel-header">
+
+            <h3>Employee Details</h3>
+
+            <button type="button"
+                    onclick="closeEmployeeDetails()">
+
+                ✕ Close
+
+            </button>
+
+            <button type="button"
+                    onclick="editEmployeeDetails()">
+
+                ✏ Edit 
+            </button>
+
+        </div>
+
+
+        <div id="employeeDetailsContent">
+
+        </div>
+
+
+        <div id="employeeAttendanceSummary">
+
+        </div>
+
+
+        <div id="employeeSalaryLedger">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ATTENDANCE
+========================================================= -->
+
+<section id="attendanceSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>📅 Attendance Management</h2>
+
+            <p>
+                Record and track daily worker attendance
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Attendance Form -->
+
+    <div class="panel">
+
+        <h3>Mark Attendance</h3>
+
+        <form id="attendanceForm"
+              onsubmit="saveAttendance(event)">
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="attendanceEmployee">
+                        Employee *
+                    </label>
+
+                    <select id="attendanceEmployee"
+                            required>
+
+                        <option value="">
+                            Select Employee
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="attendanceDate">
+                        Attendance Date *
+                    </label>
+
+                    <input type="date"
+                           id="attendanceDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="attendanceStatus">
+                        Status *
+                    </label>
+
+                    <select id="attendanceStatus"
+                            required>
+
+                        <option value="">
+                            Select Status
+                        </option>
+
+                        <option value="PRESENT">
+                            Present
+                        </option>
+
+                        <option value="HALF_DAY">
+                            Half Day
+                        </option>
+
+                        <option value="ABSENT">
+                            Absent
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    💾 Save Attendance
+
+                </button>
+
+
+                <button type="button"
+                        onclick="resetAttendanceForm()">
+
+                    ↩ Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Attendance History -->
+
+    <div class="panel">
+
+        <h3>Attendance History</h3>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="attendanceFilterEmployee">
+                    Employee
+                </label>
+
+                <select id="attendanceFilterEmployee"
+                        onchange="loadAttendanceHistory()">
+
+                    <option value="">
+                        Select Employee
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Date</th>
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="attendanceTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LEAVE
+========================================================= -->
+
+<section id="leaveSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>🏖 Leave &amp; Holiday Management</h2>
+
+            <p>
+                Manage paid leave, unpaid leave and holidays
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Leave Form -->
+
+    <div class="panel">
+
+        <h3>Add Leave / Holiday</h3>
+
+        <form id="leaveForm"
+              onsubmit="saveLeave(event)">
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="leaveEmployee">
+                        Employee *
+                    </label>
+
+                    <select id="leaveEmployee"
+                            required>
+
+                        <option value="">
+                            Select Employee
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="leaveStartDate">
+                        Start Date *
+                    </label>
+
+                    <input type="date"
+                           id="leaveStartDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="leaveEndDate">
+                        End Date *
+                    </label>
+
+                    <input type="date"
+                           id="leaveEndDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="leaveType">
+                        Leave Type *
+                    </label>
+
+                    <select id="leaveType"
+                            required>
+
+                        <option value="PAID_LEAVE">
+                            Paid Leave
+                        </option>
+
+                        <option value="UNPAID_LEAVE">
+                            Unpaid Leave
+                        </option>
+
+                        <option value="HOLIDAY">
+                            Holiday
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="leaveStatus">
+                        Status
+                    </label>
+
+                    <select id="leaveStatus">
+
+                        <option value="APPROVED">
+                            Approved
+                        </option>
+
+                        <option value="PENDING">
+                            Pending
+                        </option>
+
+                        <option value="REJECTED">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="leaveReason">
+                        Reason
+                    </label>
+
+                    <textarea id="leaveReason"
+                              rows="3"
+                              placeholder="Enter reason"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    💾 Save Leave
+
+                </button>
+
+
+                <button type="button"
+                        onclick="resetLeaveForm()">
+
+                    ↩ Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Leave History -->
+
+    <div class="panel">
+
+        <h3>Leave History</h3>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="leaveFilterEmployee">
+                    Employee
+                </label>
+
+                <select id="leaveFilterEmployee"
+                        onchange="loadLeaveHistory()">
+
+                    <option value="">
+                        All Employees
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="leaveTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Leave Summary -->
+
+    <div class="panel">
+
+        <h3>Leave Summary</h3>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="leaveSummaryEmployee">
+                    Employee
+                </label>
+
+                <select id="leaveSummaryEmployee">
+
+                    <option value="">
+                        Select Employee
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="leaveSummaryStart">
+                    Start Date
+                </label>
+
+                <input type="date"
+                       id="leaveSummaryStart">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="leaveSummaryEnd">
+                    End Date
+                </label>
+
+                <input type="date"
+                       id="leaveSummaryEnd">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button type="button"
+                    class="primary-btn"
+                    onclick="loadLeaveSummary()">
+
+                📊 Calculate Summary
+
+            </button>
+
+        </div>
+
+
+        <div id="leaveSummaryResult">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADVANCES
+========================================================= -->
+
+<section id="advanceSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>💵 Salary Advances</h2>
+
+            <p>
+                Record and track employee salary advances
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Advance Form -->
+
+    <div class="panel">
+
+        <h3>Record Salary Advance</h3>
+
+        <form id="advanceForm"
+              onsubmit="saveAdvance(event)">
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="advanceEmployee">
+                        Employee *
+                    </label>
+
+                    <select id="advanceEmployee"
+                            required>
+
+                        <option value="">
+                            Select Employee
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advanceDate">
+                        Advance Date *
+                    </label>
+
+                    <input type="date"
+                           id="advanceDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advanceAmount">
+                        Amount *
+                    </label>
+
+                    <input type="number"
+                           id="advanceAmount"
+                           min="0"
+                           step="0.01"
+                           placeholder="₹ Amount"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advancePaymentMethod">
+                        Payment Method
+                    </label>
+
+                    <select id="advancePaymentMethod">
+
+                        <option value="CASH">
+                            Cash
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="BANK_TRANSFER">
+                            Bank Transfer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="advanceNotes">
+                        Notes
+                    </label>
+
+                    <textarea id="advanceNotes"
+                              rows="3"
+                              placeholder="Enter advance notes"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    💾 Save Advance
+
+                </button>
+
+
+                <button type="button"
+                        onclick="resetAdvanceForm()">
+
+                    ↩ Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Advance History -->
+
+    <div class="panel">
+
+        <h3>Advance History</h3>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="advanceFilterEmployee">
+                    Employee
+                </label>
+
+                <select id="advanceFilterEmployee"
+                        onchange="loadAdvanceHistory()">
+
+                    <option value="">
+                        Select Employee
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="advanceTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PAYROLL
+========================================================= -->
+
+<section id="paymentSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>💰 Payroll Management</h2>
+
+            <p>
+                Calculate, approve and finalize employee salary
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Payroll Summary -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Total Payroll</h3>
+
+            <p id="payrollTotalCount">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card warning-card">
+
+            <h3>Pending Approval</h3>
+
+            <p id="payrollPendingCount">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card info-card">
+
+            <h3>Approved</h3>
+
+            <p id="payrollApprovedCount">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card success-card">
+
+            <h3>Paid</h3>
+
+            <p id="payrollPaidCount">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card danger-card">
+
+            <h3>Cancelled</h3>
+
+            <p id="payrollCancelledCount">
+                0
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Calculate Payroll -->
+
+    <div class="panel">
+
+        <h3>Calculate Payroll</h3>
+
+        <form id="payrollForm"
+              onsubmit="calculatePayroll(event)">
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="payrollEmployee">
+                        Employee *
+                    </label>
+
+                    <select id="payrollEmployee"
+                            required>
+
+                        <option value="">
+                            Select Employee
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="payrollStartDate">
+                        Start Date *
+                    </label>
+
+                    <input type="date"
+                           id="payrollStartDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="payrollEndDate">
+                        End Date *
+                    </label>
+
+                    <input type="date"
+                           id="payrollEndDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="payrollBonus">
+                        Bonus
+                    </label>
+
+                    <input type="number"
+                           id="payrollBonus"
+                           min="0"
+                           step="0.01"
+                           value="0"
+                           placeholder="₹ Bonus">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="payrollDeduction">
+                        Other Deduction
+                    </label>
+
+                    <input type="number"
+                           id="payrollDeduction"
+                           min="0"
+                           step="0.01"
+                           value="0"
+                           placeholder="₹ Deduction">
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    🧮 Calculate Payroll
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Payroll Filters -->
+
+    <div class="panel">
+
+        <h3>Payroll History</h3>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="paymentStatusFilter">
+                    Status
+                </label>
+
+                <select id="paymentStatusFilter"
+                        onchange="loadPayments()">
+
+                    <option value="ALL">
+                        All
+                    </option>
+
+                    <option value="PENDING">
+                        Pending
+                    </option>
+
+                    <option value="APPROVED">
+                        Approved
+                    </option>
+
+                    <option value="PAID">
+                        Paid
+                    </option>
+
+                    <option value="CANCELLED">
+                        Cancelled
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="paymentEmployeeFilter">
+                    Employee
+                </label>
+
+                <select id="paymentEmployeeFilter"
+                        onchange="loadPayments()">
+
+                    <option value="">
+                        All Employees
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table class="payroll-table">
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Period</th>
+                    <th>Gross</th>
+                    <th>Bonus</th>
+                    <th>Advance</th>
+                    <th>Deduction</th>
+                    <th>Net Salary</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="paymentTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINANCIAL ANALYTICS
+========================================================= -->
+
+<section id="analyticsSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>📈 Financial Analytics</h2>
+
+            <p>
+                Payroll, advance and deduction analysis
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="analytics-actions">
+
+            <button type="button"
+                    class="primary-btn"
+                    onclick="loadFinancialAnalytics()">
+
+                🔄 Refresh Analytics
+
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Employee</th>
+                    <th>Total Gross</th>
+                    <th>Bonus</th>
+                    <th>Advances</th>
+                    <th>Deductions</th>
+                    <th>Net Salary</th>
+                    <th>Paid</th>
+                    <th>Pending</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="analyticsTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REPORTS
+========================================================= -->
+
+<section id="reportSection"
+         class="page-section"
+         style="display:none;">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>📄 Reports</h2>
+
+            <p>
+                Attendance and salary reports
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Report Filters -->
+
+    <div class="panel">
+
+        <h3>Report Filters</h3>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="reportEmployee">
+                    Employee
+                </label>
+
+                <select id="reportEmployee">
+
+                    <option value="">
+                        All Employees
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="reportStartDate">
+                    Start Date
+                </label>
+
+                <input type="date"
+                       id="reportStartDate">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="reportEndDate">
+                    End Date
+                </label>
+
+                <input type="date"
+                       id="reportEndDate">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button type="button"
+                    onclick="generateReport()"
+                    class="primary-btn">
+
+                📊 Generate Report
+
+            </button>
+
+
+            <button type="button"
+                    onclick="exportReportPDF()">
+
+                📄 Export or Save PDF
+
+            </button>
+
+
+            <button type="button"
+                    onclick="exportReportExcel()">
+
+                📊 Export Excel
+
+            </button>
+
+
+            <button type="button"
+                    onclick="printReport()">
+
+                🖨 Print
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Report Result -->
+
+    <div class="panel">
+
+        <h3>Report Result</h3>
+
+        <div id="reportSummary">
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Employee</th>
+                    <th>Present</th>
+                    <th>Half Day</th>
+                    <th>Absent</th>
+                    <th>Paid Leave</th>
+                    <th>Unpaid Leave</th>
+                    <th>Holiday</th>
+                    <th>Gross</th>
+                    <th>Paid</th>
+                    <th>Pending</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="reportTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <p>
+        ELUMALAI CONSTRUCTIONS
+        <br>
+        Employee Management System
+        &copy; 2026
+    </p>
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="script.js"></script>
+
+</body>
+</html>
